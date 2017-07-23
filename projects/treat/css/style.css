@@ -21,7 +21,35 @@ button{
 }
 /* main.css finishes here */
 .main-content-container{
+	text-align : center;
+	font-family : raleway;
+}
+.input-name{
+	width : 300px;
+	color : #888;
 	padding : 10px;
 	text-align : center;
 	font-family : raleway;
+	font-size : 16px;
+	border : none;
+	border-bottom : 2px solid #eee;
+	transition : border 0.4s;
+	box-shadow : 0px 0px 5px #eee;
+}
+.input-name:focus{
+	border-bottom : 2px solid #aaf;
+}
+.content-title{
+	color : #aaf;
+	font-size : 22px;
+}
+.content{
+	width : 50%;
+	padding : 50px;
+	margin : auto;
+}
+.header{
+	position : fixed;
+	height : 50px;
+	width : 100%;
 }

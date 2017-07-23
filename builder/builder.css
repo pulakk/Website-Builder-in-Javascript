@@ -5,8 +5,8 @@
 	width:350px;
 	overflow:hidden;
 	position:fixed;
-	top:5%;
-	right:10%;
+	top:20px;
+	right:20px;
 	background:white;
 	font-size:16px;
 	box-shadow: 0px 0px 10px #eee;
@@ -74,6 +74,11 @@ div#config-properties>.config-edits{
 #config-save-container{
 	position:absolute;
 	left:140px;
+	top:20px;
+}
+#config-move-container{
+	position:absolute;
+	left:200px;
 	top:20px;
 }
 .config-tab:hover{

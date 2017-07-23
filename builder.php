@@ -156,6 +156,11 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- MOVE TAB -->
+	<div class='config-default' id="config-move-container">
+		<div class="config-tab" id="config-move-tab"><span class='config-default glyphicon glyphicon glyphicon-move'></span></div>
+	</div>
 </div>
 <!-- Sample div -->
 <?php
@@ -169,7 +174,7 @@
 			echo explode('</body>',explode('<body>',$html)[1])[0];
 		}else{
 			// output html
-			echo '<div class="main-content-container"><h2>Welcome</h2><div>Sample Div</div></div>';
+			echo '<div class="main-content-container"><div>Welcome</div><div>Sample Div</div></div>';
 		}
 ?>
 

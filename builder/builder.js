@@ -22,7 +22,27 @@ let default_styling = {
 	'border-right':'',
 	'border-top':'',
 	'float':'',
-	'clear':''
+	'clear':'',
+	'transition':'',
+	'box-shadow':'',
+	'left':'',
+	'right':'',
+	'top':'',
+	'bottom':'',
+	'margin-left':'',
+	'margin-right':'',
+	'margin-top':'',
+	'margin-bottom':'',
+	'overflow':'',
+	'overflow-x':'',
+	'overflow-y':'',
+	'z-index':'',
+	'cursor':'',
+	'padding-left':'',
+	'padding-right':'',
+	'padding-top':'',
+	'padding-bottom':'',
+
 };
 var css_classes = {};
 var css_ids = {};
@@ -32,7 +52,16 @@ window.onload = function(){
 ////////////////////////////////// DOM Initialisation //////////////////////////////
 	// movable config container
 	$('.config-container').draggable();
-	$('.config-tabs-container').draggable();
+	$(".config-tabs-container").draggable();
+	// $('.config-tabs-container').draggable(false);
+
+	// movable save, class and id properties
+	$('div#config-move-container').on('mousedown',function(){
+		$('.config-tabs-container').draggable('enable');
+	})
+	$('div#config-move-container').on('mouseup',function(){
+		$('.config-tabs-container').draggable('disable');
+	})
 
 	// load current css styling buffer from project css file
 	$.ajax({
@@ -53,9 +82,13 @@ window.onload = function(){
 	});
 
 	// css showcase height
-	$('.config-css-show').css('max-height',($(window).height()-250)+'px');
+	$('.config-css-show').css('max-height',($(window).height()-400)+'px');
+
+	// window resize functions
 	$(window).resize(function(){
-		$('.config-css-show').css('max-height',($(window).height()-250)+'px');
+		$('.config-css-show').css('max-height',($(window).height()-400)+'px');
+		$('.config-tabs-container').css({'left':'0px','top':'0px'});
+		$('.config-container').css({'right':'20px','top':'20px'})
 	});
 
 ////////////////////////////////// PROPS functions //////////////////////////////
@@ -155,6 +188,12 @@ window.onload = function(){
 	// new project
 	$('button#config-project-new').on("click",function(){
 		window.location.href = 'index.php';
+	});
+
+	$('button#config-project-url').on('click',function(){
+		var win = window.open('projects/'+$('#config-project-name').html(), '_blank');
+		if (win) win.focus();
+		else alert('Please allow popups for this website');
 	});
 }
 
@@ -269,6 +308,15 @@ function get_description(e){
 		// store previous div and get currently selected div
 		prev_div = current_div;
 		current_div = $(this);
+
+		// show current div css properties
+		if(typeof current_div != 'undefined') {
+			$('select#config-class-selected').val(current_div.attr('class'));
+			get_class_css();
+
+			$('select#config-id-selected').val(current_div.attr('id'));
+			get_id_css();
+		}
 
 		// mark new div by highlighting through a blue outline
 		if((typeof prev_div!='undefined')){
