@@ -2,6 +2,8 @@
 Needs an http server to host the platform (preferrably apache xampp)
 
 # to-do
->Color picker
+> - [x] class/id picker 
 
->background images
+> - [x] Color picker
+
+> - [ ] background images
