@@ -1,3 +1,25 @@
+html{
+	min-height:100%;
+}
+body{
+	min-height:100%;
+	margin:0px;
+	padding:0px;
+}
+div{
+	box-sizing: border-box;
+}
+input{
+	box-sizing: border-box;
+}
+textarea{
+	box-sizing: border-box;
+}
+button{
+	cursor:pointer;
+	box-sizing: border-box;
+}
+/* main.css finishes here */
 .main-content-container{
 	text-align : center;
 	font-family : raleway;

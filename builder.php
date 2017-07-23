@@ -8,7 +8,7 @@
 	<link rel="stylesheet" id="stylesheet-styling" href="main/style.css">
 
 	<!-- online links -->
-	<link rel="stylesheet" href="bootstrap-glyph/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bootstrap-glyph/css/bootstrap.min.css?<?php echo date('l jS \of F Y h:i:s A'); ?>">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway"/>
@@ -171,7 +171,7 @@
 			foreach($html_load_file as $line){
 				$html .= $line;
 			}
-			echo explode('</body>',explode('<body>',$html)[1])[0];
+			echo trim(explode('</body>',trim(explode('<body>',$html)[1],' '))[0],' ');
 		}else{
 			// output html
 			echo '<div class="main-content-container"><div>Welcome</div><div>Sample Div</div></div>';

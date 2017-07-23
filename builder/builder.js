@@ -47,12 +47,18 @@ let default_styling = {
 var css_classes = {};
 var css_ids = {};
 let tabs = ['div#config-class','div#config-id','div#config-save'];
+let colors = [['#fff','#ddd','#bbb','#888'],
+ ['#fee','#fcc','#faa','#f88'],
+['#efe','#cfc','#afa','#8f8'],
+ ['#eef','#ccf','#aaf','#88f']];
 
 window.onload = function(){
 ////////////////////////////////// DOM Initialisation //////////////////////////////
+
 	// movable config container
 	$('.config-container').draggable();
 	$(".config-tabs-container").draggable();
+	$('.config-tabs-container').draggable('disable');
 	// $('.config-tabs-container').draggable(false);
 
 	// movable save, class and id properties
@@ -115,6 +121,17 @@ window.onload = function(){
 		}
 	});
 
+	// on selecting div class show class properties in class and div tabs container
+	$('select#div-class').on('change',function(){
+		$('select#config-class-selected').val($(this).val());
+			$('select#config-class-selected').trigger('change');
+	});
+	// and for id
+	$('select#div-id').on('change',function(){
+		$('select#config-id-selected').val($(this).val());
+		$('select#config-id-selected').trigger('change');
+	});
+
 	// on changing id select element -> change id of div
 	$("select#div-id").on("change",function(){
 		if(typeof current_div != "undefined")
@@ -152,6 +169,17 @@ window.onload = function(){
 	});
 
 ////////////////////////////////// CLASS FUNCTIONS //////////////////////////////
+	// background color icons
+	$(document).on('click','.config-color-bg-class-css',function(){
+		$('input#div-class-background').val($(this).attr('id').split('config-color-value-')[1]);
+		$('input#div-class-background').trigger('change');
+	})
+	// text color icons
+	$(document).on('click','.config-color-text-class-css',function(){
+		$('input#div-class-color').val($(this).attr('id').split('config-color-value-')[1]);
+		$('input#div-class-color').trigger('change');
+	})
+
 	// show css properties of class selected
 	$('select#config-class-selected').on("change",get_class_css);
 
@@ -163,10 +191,21 @@ window.onload = function(){
 		delete css_classes[$('select#config-class-selected').val()];
 		update_classes_list();
 		get_class_css();
-		tmp_css_properties('tmp_css.php');
+		tmp_css_properties();
 	});
 
 ////////////////////////////////// ID FUNCTIONS //////////////////////////////
+	// background color icons
+	$(document).on('click','.config-color-bg-id-css',function(){
+		$('input#div-id-background').val($(this).attr('id').split('config-color-value-')[1]);
+		$('input#div-id-background').trigger('change');
+	})
+	// text color icons
+	$(document).on('click','.config-color-text-id-css',function(){
+		$('input#div-id-color').val($(this).attr('id').split('config-color-value-')[1]);
+		$('input#div-id-color').trigger('change');
+	})
+
 	// show css properties of class selected
 	$('select#config-id-selected').on("change",get_id_css);
 
@@ -178,7 +217,7 @@ window.onload = function(){
 		delete css_ids[$('select#config-id-selected').val()];
 		update_ids_list();
 		get_id_css();
-		tmp_css_properties('tmp_css.php');
+		tmp_css_properties();
 	});
 
 ////////////////////////////////// SAVE FUNCTIONS //////////////////////////////
@@ -227,7 +266,7 @@ function load_css_buffer(response){
 						}
 					}
 					else if(css_instance.startsWith('#')){
-						css_instance = css_instance.split('.')[1];
+						css_instance = css_instance.split('#')[1];
 						let idName = css_instance.split('{')[0].trim();
 						css_ids[idName.toString()] = JSON.parse(JSON.stringify(default_styling));
 
@@ -252,7 +291,7 @@ function load_css_buffer(response){
 	get_id_css();
 
 	// update css buffer
-	tmp_css_properties('tmp_css.php');
+	tmp_css_properties();
 }
 
 function project_save(){
@@ -415,34 +454,50 @@ function get_class_css(e, className){
 	// get selected class
 	if(typeof className == 'undefined') className = $('select#config-class-selected').val();
 
-	// clean css showcase first
+	// clean css showcase
 	$('#config-class-css').empty();
-	$('#config-class-css').append('<h4 class="config-default">Class : '+className+'</h4>');
 
-	// for every class in css_classes
-	for(let key in css_classes[className]){
-		// creating nodes
-		let tmp = $('<div class="config-item"></div>');
-		let tmp_attr = $('<div class="config-attribute">'+key+'</div>');
-		let tmp_inp = $('<input class="config" id="div-'+key+'" type="text" spellcheck="false"/>');
+	if(className!=null){
+		// background color options
+		$('#config-class-css').append('<h4 class="config-default">Class : '+className+'</h4>Background Color<br>');
+		for(let i in colors){
+			for(let j in colors[i])
+				$('#config-class-css').append('<button class="config-color-icon-choice config-color-bg-class-css" style="background:'+colors[i][j]+';" id="config-color-value-'+colors[i][j]+'"></button>');
+			$('#config-class-css').append('<br>');
+		}
+		// text color options
+		$('#config-class-css').append('<br>Text Color<br>');
+		for(let i in colors){
+			for(let j in colors[i])
+				$('#config-class-css').append('<button class="config-color-icon-choice config-color-text-class-css" style="background:'+colors[i][j]+';" id="config-color-value-'+colors[i][j]+'"></button>');
+			$('#config-class-css').append('<br>');
+		}
 
-		// click event for input change
-		tmp_inp.val(css_classes[className][key]);
-		tmp_inp.on('change',function(){
-			// on changing styling update css_classes object
-			css_classes[$('select#config-class-selected').val()][$(this).attr('id').split("div-").join('')] = $(this).val();
-			// update server css file
-			tmp_css_properties('tmp_css.php');
+		// for every class in css_classes
+		for(let key in css_classes[className]){
+			// creating nodes
+			let tmp = $('<div class="config-item"></div>');
+			let tmp_attr = $('<div class="config-attribute">'+key+'</div>');
+			let tmp_inp = $('<input class="config" id="div-class-'+key+'" type="text" spellcheck="false"/>');
 
-		});
+			// click event for input change
+			tmp_inp.val(css_classes[className][key]);
+			tmp_inp.on('change',function(){
+				// on changing styling update css_classes object
+				css_classes[$('select#config-class-selected').val()][$(this).attr('id').split("div-class-").join('')] = $(this).val();
+				// update server css file
+				tmp_css_properties();
 
-		// appending everything to showcase css of class
-		let tmp_val = $('<div class="config-value">');
-		tmp_val.append(tmp_inp);
-		tmp_val.append('</div>');
-		tmp.append(tmp_attr);
-		tmp.append(tmp_val);
-		$('#config-class-css').append(tmp);
+			});
+
+			// appending everything to showcase css of class
+			let tmp_val = $('<div class="config-value">');
+			tmp_val.append(tmp_inp);
+			tmp_val.append('</div>');
+			tmp.append(tmp_attr);
+			tmp.append(tmp_val);
+			$('#config-class-css').append(tmp);
+		}
 	}
 }
 
@@ -453,35 +508,52 @@ function get_id_css(e,idName){
 
 	// clean first
 	$('#config-id-css').empty();
-	$('#config-id-css').append('<h4 class="config-default">Id : '+idName+'</h4>');
-	// for every id in css_ids
-	for(let key in css_ids[idName]){
-		// creating nodes
-		let tmp = $('<div class="config-item"></div>');
-		let tmp_attr = $('<div class="config-attribute">'+key+'</div>');
-		let tmp_inp = $('<input class="config" id="div-'+key+'" type="text" spellcheck="false"/>');
+	if(idName != null){
+		// background color options
+		$('#config-id-css').append('<h4 class="config-default">Id : '+idName+'</h4><br>Background Color<br>');
+		for(let i in colors){
+			for(let j in colors[i])
+				$('#config-id-css').append('<button class="config-color-icon-choice config-color-bg-id-css" style="background:'+colors[i][j]+';" id="config-color-value-'+colors[i][j]+'"></button>');
+			$('#config-id-css').append('<br>');
+		}
+		// text color options
+		$('#config-id-css').append('<br>Text Color<br>');
+		for(let i in colors){
+			for(let j in colors[i])
+				$('#config-id-css').append('<button class="config-color-icon-choice config-color-text-id-css" style="background:'+colors[i][j]+';" id="config-color-value-'+colors[i][j]+'"></button>');
+			$('#config-id-css').append('<br>');
+		}
 
-		// click event for input change
-		tmp_inp.val(css_ids[idName][key]);
-		tmp_inp.on('change',function(){
-			// on changing styling update css_ids object
-			css_ids[$('select#config-id-selected').val()][$(this).attr('id').split("div-").join('')] = $(this).val();
-			// save css file to serer
-			tmp_css_properties('tmp_css.php');
-		});
+		// for every id in css_ids
+		for(let key in css_ids[idName]){
+			// creating nodes
+			let tmp = $('<div class="config-item"></div>');
+			let tmp_attr = $('<div class="config-attribute">'+key+'</div>');
+			let tmp_inp = $('<input class="config" id="div-id-'+key+'" type="text" spellcheck="false"/>');
 
-		// appending everything to show css of id
-		let tmp_val = $('<div class="config-value">');
-		tmp_val.append(tmp_inp);
-		tmp_val.append('</div>');
-		tmp.append(tmp_attr);
-		tmp.append(tmp_val);
-		$('#config-id-css').append(tmp);
+			// click event for input change
+			tmp_inp.val(css_ids[idName][key]);
+			tmp_inp.on('change',function(){
+				// on changing styling update css_ids object
+				css_ids[$('select#config-id-selected').val()][$(this).attr('id').split("div-id-").join('')] = $(this).val();
+				// save css file to serer
+				tmp_css_properties();
+			});
+
+			// appending everything to show css of id
+			let tmp_val = $('<div class="config-value">');
+			tmp_val.append(tmp_inp);
+			tmp_val.append('</div>');
+			tmp.append(tmp_attr);
+			tmp.append(tmp_val);
+			$('#config-id-css').append(tmp);
+		}
 	}
 }
 
 // save css file to server
-function tmp_css_properties(link){
+function tmp_css_properties(){
+	let link = 'tmp_css.php';
 	css_string = "";
 	for(let each_class in css_classes){
 		css_string += "."+each_class+'{\n';
@@ -504,7 +576,3 @@ function tmp_css_properties(link){
 		$('#stylesheet-styling').attr('href',$('#stylesheet-styling').attr('href')+"?id=" + new Date().getMilliseconds());
 	}});
 }
-
-////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////
-////////////////////////////////// rubbish ///////////////////////////////////

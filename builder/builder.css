@@ -2,12 +2,18 @@
 	z-index:10000;
 }
 .config-container{
-	width:350px;
+	width:388px;
 	overflow:hidden;
 	position:fixed;
 	top:20px;
 	right:20px;
 	background:white;
+	-webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
 	font-size:16px;
 	box-shadow: 0px 0px 10px #eee;
 	font-family: "Raleway","Calibri";
@@ -20,12 +26,14 @@
 	width:100%;
 	background:#eee;
 	font-weight: bold;
+	font-family: "Raleway","Calibri";
 	color:#888;
 	text-align: center;
 	font-size:16px;
 }
 .config-tabs-container{
 	position:fixed;
+	font-family: "Raleway","Calibri";
 }
 div#config-class{
 	display: none;
@@ -95,7 +103,7 @@ div#config-properties>.config-edits{
 	clear:left;
 	color:#888;
 	max-height:90%;
-	width:350px;
+	width:380px;
 	background:#fff;
 	border:2px dashed #ddf;
 	border-radius:0px 25px 0px 25px;
@@ -269,4 +277,18 @@ h4.config-default{
 }
 #config-project-url:active{
 	font-size:16px;
+}
+button.config-color-icon-choice{
+	background:none;
+	border:none;
+	outline:none;
+	margin:3px;
+	width:30px;
+	border-radius:5px;
+	border:2px dashed #ddd;
+	transition:border-radius 0.3s;
+	height:30px;
+}
+button.config-color-icon-choice:hover{
+	border-radius:15px;
 }
