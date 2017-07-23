@@ -1,0 +1,267 @@
+[class^='config-']{
+	z-index:10000;
+}
+.config-container{
+	width:350px;
+	overflow:hidden;
+	position:fixed;
+	top:5%;
+	right:10%;
+	background:white;
+	font-size:16px;
+	box-shadow: 0px 0px 10px #eee;
+	font-family: "Raleway","Calibri";
+	z-index: 9999;
+	border:4px solid #eee;
+}
+.config-bar{
+	height:30px;
+	padding:2px;
+	width:100%;
+	background:#eee;
+	font-weight: bold;
+	color:#888;
+	text-align: center;
+	font-size:16px;
+}
+.config-tabs-container{
+	position:fixed;
+}
+div#config-class{
+	display: none;
+}
+div#config-id{
+	display: none;
+}
+div#config-save{
+	display: none;
+	width:200px;
+}
+div#config-properties{
+	display: none;
+}
+div#config-properties>.config-edits{
+	border:0px;
+	border-radius:0px;
+}
+.config-tab{
+	color:#888;
+	background:#fff;
+	border:2px dashed #eee;
+	width:45px;
+	position:relative;
+	float:left;
+	font-size:17px;
+	z-index:1000;
+	text-align:center;
+	font-weight:bold;
+	padding:10px;
+	border-radius:25px;
+	transition:all 0.2s;
+	/*transition-property: border, color;*/
+	height:45px;
+}
+#config-class-container{
+	position:absolute;
+	left:20px;
+	top:20px;
+}
+#config-id-container{
+	position:absolute;
+	left:80px;
+	top:20px;
+}
+#config-save-container{
+	position:absolute;
+	left:140px;
+	top:20px;
+}
+.config-tab:hover{
+	cursor:pointer;
+	border:2px dashed #aaf;
+	background:#eee;
+	color:#99f;
+}
+.config-tab:active{
+	font-size:15px;
+}
+.config-edits{
+	text-align:center;
+	clear:left;
+	color:#888;
+	max-height:90%;
+	width:350px;
+	background:#fff;
+	border:2px dashed #ddf;
+	border-radius:0px 25px 0px 25px;
+	padding:10px;
+	background:#fafafa;
+
+}
+.config-attribute>button{
+	display:inline-block;
+	margin:auto;
+	width:120px;
+	border:none;
+	clear:right;
+	background:none;
+	border-bottom:2px solid #eee;
+	outline:none;
+	font-family:raleway;
+	font-size:16px;
+	transition:border 0.3s;
+}
+.config-attribute>button:hover{
+	border-bottom:2px solid #99f;
+}
+.config-attribute>button:active{
+	font-size:14px;
+}
+.config-item{
+	font-size:15px;
+	color:#666;
+	clear:right;
+	text-align: left;
+	padding:5px;
+}
+.config-attribute{
+	display:inline-block;
+	margin:auto;
+	padding:5px;
+}
+.config-value{
+	position:relative;
+	float:right;
+	padding-right:5px;
+}
+.config-value>input{
+	outline:none;
+	color:#666;
+	font-size:inherit;
+	text-align:center;
+	background:white;
+	border:none;
+	width:175px;
+	box-shadow: 0px 0px 10px #eee;
+	border-bottom:2px solid #eee;
+	transition:border 0.4s;
+	padding:5px;
+}
+.config-value>input:focus{
+	border-bottom:2px solid #99f;
+}
+.config-item>textarea{
+	padding:10px;
+	border:2px dotted #eee;
+	outline:none;
+	font-size:15px;
+	width:100%;
+	resize: none;
+	min-height:200px;
+	font-family:raleway;
+	transition:border 0.4s;
+	color:#888;
+}
+.config-item>textarea:focus{
+	border:2px dotted #bbf;
+}
+.config-button{
+	border:none;
+	border-bottom:2px solid #eee;
+	background:none;
+	font-size:20px;
+	transition:border 0.3s;
+	box-shadow: 0px 0px 10px #eee;
+	font-weight:bold;
+	font-family:raleway;
+	outline:none;
+	width:30px;
+	height:30px;
+}
+.config-button:hover{
+	border-bottom:2px solid #99f;
+	cursor:pointer;
+}
+.config-button:active{
+	font-size:18px;
+}
+.config-button-large{
+	border:none;
+	border-bottom:2px solid #eee;
+	background:none;
+	font-size:16px;
+	box-shadow: 0px 0px 10px #eee;
+	height:35px;
+	padding:5px;
+	font-weight: normal;
+	transition:border 0.4s;
+	width:155px;
+	margin:5px;
+	background:white;
+}
+.config-button-large:hover{
+	border-bottom:2px solid #99f;
+	cursor:pointer;
+}
+.config-button-large:active{
+	font-size:15px;
+}
+.config-close-button{
+	font-size:13px;
+	font-weight: bold;
+	color:#888;
+	background:#aaf;
+	height:20px;
+	width:20px;
+	color:white;
+	float:right;
+	border:none;
+	outline:none;
+}
+.config-close-button:hover{
+	color:#f3f3f3;
+	cursor:pointer;
+}
+.config-close-button:active{
+	color:#eee;
+}
+.config-select{
+	border:none;
+	border-bottom:2px solid #eee;
+	font-family:raleway;
+	font-size:15px;
+	color:#888;
+	outline:none;
+	padding:5px;
+	width:175px;
+	box-shadow: 0px 0px 10px #eee;
+	transition:all 0.4s;
+	transition-property: border;
+}
+.config-select:hover{
+	cursor:pointer;
+	border-bottom:2px solid #99f;
+}
+.config-css-show{
+	clear:right;
+	max-height:100%;
+	overflow-y:scroll;
+	border-top:2px dashed #eee;
+}
+.config-css-show>h3{
+	text-align: center;
+	padding:2px;
+}
+h4.config-default{
+	margin:0px;
+	padding:5px;
+	color:#888;
+}
+#config-project-url{
+	height:auto;
+	padding:10px;
+	outline:none;
+}
+#config-project-url:active{
+	font-size:16px;
+}
