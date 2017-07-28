@@ -1,6 +1,7 @@
 # zinx-website-builder (beta)
 Needs an http server to host the platform (preferrably apache xampp)
-Main Files->
+
+# Main Files->
 
 > ./builder/builder.js - The main editor file (600+ lines) - look at the code to better understand (properly commented, readable)
 
