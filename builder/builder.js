@@ -56,22 +56,33 @@ let colors = [['#fff','#ddd','#bbb','#888'],
 ////////////////////////////// FUNCTIONS DECLARATIONS //////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
-
+// loads css styling from the project file to css buffer file of editor page
 function load_css_buffer(response){
+	// split all uncommented segments of code
 	let uncommented = response.split(/\/\*[a-zA-Z\s]*\*\//);
 	for(let i in uncommented){
+		// for all snippets of uncommented code
 		let snippet = uncommented[i];
+		
+		// if snippet not empty
 		if(snippet.trim() != ''){
+			// as each class and id styling are separated by [.#][a-zA-Z]*{ ... } so split it by '}'	
 			let group = snippet.split('}');
+			
 			for(let i in group){
-				let css_instance = group[i].trim();
-				if(css_instance != ''){
-					if(css_instance.startsWith('.')){
+				let css_instance = group[i].trim(); // for each styling group (class or id) spaces trimmed at the end
+				if(css_instance != ''){ // if split item is not empty
+					
+					if(css_instance.startsWith('.')){ // if starts with '.' then it is a class
 						css_instance = css_instance.split('.')[1];
 						let className = css_instance.split('{')[0].trim();
+						
+						// set new class for each className in styling file loaded
 						css_classes[className.toString()] = JSON.parse(JSON.stringify(default_styling));
 
+						// add each css property eg. padding:100px; separate by ';' and then add each property
 						let css_props = group[i].split('{')[1].split(';');
+						
 						for(let i in css_props){
 							let css_prop = css_props[i].trim();
 							if(css_prop!=''){
@@ -81,6 +92,7 @@ function load_css_buffer(response){
 							}
 						}
 					}
+					// same logic for id which start with '#'
 					else if(css_instance.startsWith('#')){
 						css_instance = css_instance.split('#')[1];
 						let idName = css_instance.split('{')[0].trim();
@@ -110,6 +122,7 @@ function load_css_buffer(response){
 	tmp_css_properties();
 }
 
+// save the current html file and css styling to project file by sending ajax query to ./save.php
 function project_save(){
 	if(typeof current_div != 'undefined') current_div.css('outline','none');
 	let link = 'save.php';
@@ -141,11 +154,14 @@ function project_save(){
 
 // update active tab
 function active_tab(tab){
+	// set all tabs to inactive
 	for(let i in tabs){
 		if(tabs[i]!=tab)
 			$(tabs[i]).hide();
 		$(tabs[i]+'-tab').css({'border-radius':'25px'});
 	}
+	
+	// set desired tab to active
 	$(tab).toggle();
 	if($(tab).css('display') != 'none'){
 		$(tab+'-tab').css({'border-radius':'25px 25px 0px 0px'});
@@ -195,6 +211,7 @@ function get_description(e){
 function create_class_css(){
 	// get class name to be created
 	let className = $('input#config-new-class').val();
+	
 	if(className!= ""){
 		// create new class key in css_classes object
 		if(!css_classes.hasOwnProperty(className)){
@@ -215,6 +232,7 @@ function create_class_css(){
 function create_ids_css(){
 	// get id name to be created
 	let idName = $('input#config-new-id').val();
+	
 	if(idName!= ""){
 		// create new id key in css_ids object
 		if(!css_ids.hasOwnProperty(idName)){
@@ -236,6 +254,7 @@ function update_classes_list(){
 	// clean first
 	$('select#div-class').empty();
 	$('select#config-class-selected').empty();
+	
 	// add from css_classes object
 	for(let key in css_classes){
 		let tmp = $('<option></option').attr('value',key).text(key);// create node
@@ -244,6 +263,7 @@ function update_classes_list(){
 		tmp = $('<option></option').attr('value',key).text(key);// create node
 		$('select#config-class-selected').append(tmp);// append node
 	}
+	
 	// deselect div
 	$('select#div-class').val('');
 }
@@ -253,6 +273,7 @@ function update_ids_list(){
 	// clean first
 	$('select#div-id').empty();
 	$('select#config-id-selected').empty();
+	
 	// add from id_class object
 	for(let key in css_ids){
 		let tmp = $('<option></option').attr('value',key).text(key);// create node
@@ -261,6 +282,7 @@ function update_ids_list(){
 		tmp = $('<option></option').attr('value',key).text(key);// create node
 		$('select#config-id-selected').append(tmp);// append node
 	}
+	
 	// deselect id
 	$('select#div-id').val('');
 }
@@ -367,12 +389,17 @@ function get_id_css(e,idName){
 	}
 }
 
-// save css file to server
+// save css buffer object to current css editor settings buffer
 function tmp_css_properties(){
+	
 	let link = 'tmp_css.php';
 	css_string = "";
+	
+	// for all classes
 	for(let each_class in css_classes){
 		css_string += "."+each_class+'{\n';
+		
+		// for each class add save their properties
 		for(let key in css_classes[each_class]){
 			if(css_classes[each_class][key]!='')
 				css_string += '\t'+key+' : '+css_classes[each_class][key]+';\n';
@@ -380,15 +407,21 @@ function tmp_css_properties(){
 		css_string += '}\n';
 	}
 
+	// for all ids 
 	for(let each_id in css_ids){
 		css_string += "#"+each_id+'{\n';
+		
+		// for each id add save their properties
 		for(let key in css_ids[each_id]){
 			if(css_ids[each_id][key]!='')
 				css_string += '\t'+key+' : '+css_ids[each_id][key]+';\n';
 		}
 		css_string += '}\n';
 	}
+	
+	// send save query through ajax to link ("tmp_css.php")
 	$.ajax({url:link,data:"css="+css_string,type:'post',success:function(data){
+		// reload style sheet when success in saving
 		$('#stylesheet-styling').attr('href',$('#stylesheet-styling').attr('href')+"?id=" + new Date().getMilliseconds());
 	}});
 }
