@@ -11,8 +11,11 @@
 	<title> Zinx | Log in </title>
 </head>
 <body>
+<!-- Title -->
 	<div style="height:14%;"></div>
 	<h1>Zinx CSS Editor <span style="color:#eee">(beta)</span></h1><br>
+	
+<!--  form -->
 	<form action="builder.php" method="post">
 		<input id="project-name" type="text" name='folder-name' placeholder="Project Name"/>
 		<button class='start-project' type="submit" value="submit">Start Project</button>
@@ -26,6 +29,7 @@
 		}
 		echo '<br>';
 	?></div>
+<!-- Description -->
 	<div class="description">
 		<span style="color:#333">Zinx</span> css editor is a free online platform to build and develop css classes and ids of pages in an instant.
 		The focus of the project is <span style="color:#333">faster web page development</span>.
