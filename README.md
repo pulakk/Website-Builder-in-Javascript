@@ -3,7 +3,7 @@ Needs an http server to host the platform (preferrably apache xampp)
 
 # Main Files->
 
-> ./builder/builder.js - The main editor file (600+ lines) - look at the code to better understand (properly commented, readable)
+> ./builder/builder.js - The main editor code (600+ lines) - look at the code to better understand (properly commented, readable)
 
 > ./builder.php - checks if logged in from index.php with a valid project name - if new project, then loads default html, else loads html file from project saved
 
