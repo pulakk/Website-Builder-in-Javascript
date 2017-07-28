@@ -52,190 +52,6 @@ let colors = [['#fff','#ddd','#bbb','#888'],
 ['#efe','#cfc','#afa','#8f8'],
  ['#eef','#ccf','#aaf','#88f']];
 
-window.onload = function(){
-////////////////////////////////// DOM Initialisation //////////////////////////////
-
-	// movable config container
-	$('.config-container').draggable();
-	$(".config-tabs-container").draggable();
-	$('.config-tabs-container').draggable('disable');
-	// $('.config-tabs-container').draggable(false);
-
-	// movable save, class and id properties
-	$('div#config-move-container').on('mousedown',function(){
-		$('.config-tabs-container').draggable('enable');
-	})
-	$('div#config-move-container').on('mouseup',function(){
-		$('.config-tabs-container').draggable('disable');
-	})
-
-	// load current css styling buffer from project css file
-	$.ajax({
-		url:'get_project_css.php',
-		type:'post',
-		data:'project='+$('span#config-project-name').html(),
-		success:load_css_buffer});
-
-	// tab click events
-	$('div#config-class-tab').on("mouseup",function(){
-		active_tab('div#config-class');
-	});
-	$('div#config-id-tab').on("mouseup",function(){
-		active_tab('div#config-id');
-	});
-	$('div#config-save-tab').on("mouseup",function(){
-		active_tab('div#config-save');
-	});
-
-	// css showcase height
-	$('.config-css-show').css('max-height',($(window).height()-400)+'px');
-
-	// window resize functions
-	$(window).resize(function(){
-		$('.config-css-show').css('max-height',($(window).height()-400)+'px');
-		$('.config-tabs-container').css({'left':'0px','top':'0px'});
-		$('.config-container').css({'right':'20px','top':'20px'})
-	});
-
-////////////////////////////////// PROPS functions //////////////////////////////
-	// close properties box
-	$('button#config-properties-close').on('mousedown',function(){
-		$('div#config-properties').hide();
-		current_div.css({'outline':'none'});
-	});
-
-	// on clicking any div get its properties
-	$(document).on('click',':not(body,html)',get_description);
-
-	// on changing class select -> change class of div
-	$("select#div-class").on("change",function(){
-		if(typeof current_div != "undefined")
-			current_div.attr('class',$(this).val());
-	});
-
-	// remove div class
-	$('button#div-remove-class').on('click',function(){
-		if(typeof current_div != 'undefined'){
-			current_div.removeAttr('class');
-			$('select#div-class').val('');
-		}
-	});
-
-	// on selecting div class show class properties in class and div tabs container
-	$('select#div-class').on('change',function(){
-		$('select#config-class-selected').val($(this).val());
-			$('select#config-class-selected').trigger('change');
-	});
-	// and for id
-	$('select#div-id').on('change',function(){
-		$('select#config-id-selected').val($(this).val());
-		$('select#config-id-selected').trigger('change');
-	});
-
-	// on changing id select element -> change id of div
-	$("select#div-id").on("change",function(){
-		if(typeof current_div != "undefined")
-			current_div.attr('id',$(this).val());
-	});
-
-	// remove div id
-	$('button#div-remove-id').on('click',function(){
-		if(typeof current_div != 'undefined'){
-			current_div.removeAttr('id');
-			$('select#div-id').val('');
-		}
-	});
-
-	// on changing html text of div -> update text area
-	$('#div-html-text').on("keyup",function(){
-		current_div.html($('textarea#div-html-text').val());
-	});
-
-	// on clicking -> add new div inside the actual div
-	$('button#div-add-new').on('click',function(){
-		let tmp = $('<div>(New Test Div)</div>');
-
-		if(typeof current_div != "undefined"){
-			current_div.append(tmp);
-		}
-		$('#div-html-text').val('');
-	});
-
-	// empty div inside when remove button clicked
-	$('button#div-remove-children').on('click',function(){
-		if(typeof current_div != "undefined"){
-			current_div.empty();
-		}
-	});
-
-////////////////////////////////// CLASS FUNCTIONS //////////////////////////////
-	// background color icons
-	$(document).on('click','.config-color-bg-class-css',function(){
-		$('input#div-class-background').val($(this).attr('id').split('config-color-value-')[1]);
-		$('input#div-class-background').trigger('change');
-	})
-	// text color icons
-	$(document).on('click','.config-color-text-class-css',function(){
-		$('input#div-class-color').val($(this).attr('id').split('config-color-value-')[1]);
-		$('input#div-class-color').trigger('change');
-	})
-
-	// show css properties of class selected
-	$('select#config-class-selected').on("change",get_class_css);
-
-	// on clicking create new class
-	$('button#config-create-class').on('click',create_class_css);
-
-	// remove class
-	$('button#config-remove-class').on('click',function(){
-		delete css_classes[$('select#config-class-selected').val()];
-		update_classes_list();
-		get_class_css();
-		tmp_css_properties();
-	});
-
-////////////////////////////////// ID FUNCTIONS //////////////////////////////
-	// background color icons
-	$(document).on('click','.config-color-bg-id-css',function(){
-		$('input#div-id-background').val($(this).attr('id').split('config-color-value-')[1]);
-		$('input#div-id-background').trigger('change');
-	})
-	// text color icons
-	$(document).on('click','.config-color-text-id-css',function(){
-		$('input#div-id-color').val($(this).attr('id').split('config-color-value-')[1]);
-		$('input#div-id-color').trigger('change');
-	})
-
-	// show css properties of class selected
-	$('select#config-id-selected').on("change",get_id_css);
-
-	// on clicking create new class
-	$('button#config-create-id').on('click',create_ids_css);
-
-	// remove id
-	$('button#config-remove-id').on('click',function(){
-		delete css_ids[$('select#config-id-selected').val()];
-		update_ids_list();
-		get_id_css();
-		tmp_css_properties();
-	});
-
-////////////////////////////////// SAVE FUNCTIONS //////////////////////////////
-	// save page
-	$('button#config-project-save').on("click",project_save);
-
-	// new project
-	$('button#config-project-new').on("click",function(){
-		window.location.href = 'index.php';
-	});
-
-	$('button#config-project-url').on('click',function(){
-		var win = window.open('projects/'+$('#config-project-name').html(), '_blank');
-		if (win) win.focus();
-		else alert('Please allow popups for this website');
-	});
-}
-
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// FUNCTIONS DECLARATIONS //////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -576,3 +392,191 @@ function tmp_css_properties(){
 		$('#stylesheet-styling').attr('href',$('#stylesheet-styling').attr('href')+"?id=" + new Date().getMilliseconds());
 	}});
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////      DOM Initialisation         //////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+window.onload = function(){
+
+	// movable config container
+	$('.config-container').draggable();
+	$(".config-tabs-container").draggable();
+	$('.config-tabs-container').draggable('disable');
+	// $('.config-tabs-container').draggable(false);
+
+	// movable save, class and id properties
+	$('div#config-move-container').on('mousedown',function(){
+		$('.config-tabs-container').draggable('enable');
+	})
+	$('div#config-move-container').on('mouseup',function(){
+		$('.config-tabs-container').draggable('disable');
+	})
+
+	// load current css styling buffer from project css file
+	$.ajax({
+		url:'get_project_css.php',
+		type:'post',
+		data:'project='+$('span#config-project-name').html(),
+		success:load_css_buffer});
+
+	// tab click events
+	$('div#config-class-tab').on("mouseup",function(){
+		active_tab('div#config-class');
+	});
+	$('div#config-id-tab').on("mouseup",function(){
+		active_tab('div#config-id');
+	});
+	$('div#config-save-tab').on("mouseup",function(){
+		active_tab('div#config-save');
+	});
+
+	// css showcase height
+	$('.config-css-show').css('max-height',($(window).height()-400)+'px');
+
+	// window resize functions
+	$(window).resize(function(){
+		$('.config-css-show').css('max-height',($(window).height()-400)+'px');
+		$('.config-tabs-container').css({'left':'0px','top':'0px'});
+		$('.config-container').css({'right':'20px','top':'20px'})
+	});
+
+////////////////////////////////// PROPS functions //////////////////////////////
+	// close properties box
+	$('button#config-properties-close').on('mousedown',function(){
+		$('div#config-properties').hide();
+		current_div.css({'outline':'none'});
+	});
+
+	// on clicking any div get its properties
+	$(document).on('click',':not(body,html)',get_description);
+
+	// on changing class select -> change class of div
+	$("select#div-class").on("change",function(){
+		if(typeof current_div != "undefined")
+			current_div.attr('class',$(this).val());
+	});
+
+	// remove div class
+	$('button#div-remove-class').on('click',function(){
+		if(typeof current_div != 'undefined'){
+			current_div.removeAttr('class');
+			$('select#div-class').val('');
+		}
+	});
+
+	// on selecting div class show class properties in class and div tabs container
+	$('select#div-class').on('change',function(){
+		$('select#config-class-selected').val($(this).val());
+			$('select#config-class-selected').trigger('change');
+	});
+	// and for id
+	$('select#div-id').on('change',function(){
+		$('select#config-id-selected').val($(this).val());
+		$('select#config-id-selected').trigger('change');
+	});
+
+	// on changing id select element -> change id of div
+	$("select#div-id").on("change",function(){
+		if(typeof current_div != "undefined")
+			current_div.attr('id',$(this).val());
+	});
+
+	// remove div id
+	$('button#div-remove-id').on('click',function(){
+		if(typeof current_div != 'undefined'){
+			current_div.removeAttr('id');
+			$('select#div-id').val('');
+		}
+	});
+
+	// on changing html text of div -> update text area
+	$('#div-html-text').on("keyup",function(){
+		current_div.html($('textarea#div-html-text').val());
+	});
+
+	// on clicking -> add new div inside the actual div
+	$('button#div-add-new').on('click',function(){
+		let tmp = $('<div>(New Test Div)</div>');
+
+		if(typeof current_div != "undefined"){
+			current_div.append(tmp);
+		}
+		$('#div-html-text').val('');
+	});
+
+	// empty div inside when remove button clicked
+	$('button#div-remove-children').on('click',function(){
+		if(typeof current_div != "undefined"){
+			current_div.empty();
+		}
+	});
+
+////////////////////////////////// CLASS FUNCTIONS //////////////////////////////
+	// background color icons
+	$(document).on('click','.config-color-bg-class-css',function(){
+		$('input#div-class-background').val($(this).attr('id').split('config-color-value-')[1]);
+		$('input#div-class-background').trigger('change');
+	})
+	// text color icons
+	$(document).on('click','.config-color-text-class-css',function(){
+		$('input#div-class-color').val($(this).attr('id').split('config-color-value-')[1]);
+		$('input#div-class-color').trigger('change');
+	})
+
+	// show css properties of class selected
+	$('select#config-class-selected').on("change",get_class_css);
+
+	// on clicking create new class
+	$('button#config-create-class').on('click',create_class_css);
+
+	// remove class
+	$('button#config-remove-class').on('click',function(){
+		delete css_classes[$('select#config-class-selected').val()];
+		update_classes_list();
+		get_class_css();
+		tmp_css_properties();
+	});
+
+////////////////////////////////// ID FUNCTIONS //////////////////////////////
+	// background color icons
+	$(document).on('click','.config-color-bg-id-css',function(){
+		$('input#div-id-background').val($(this).attr('id').split('config-color-value-')[1]);
+		$('input#div-id-background').trigger('change');
+	})
+	// text color icons
+	$(document).on('click','.config-color-text-id-css',function(){
+		$('input#div-id-color').val($(this).attr('id').split('config-color-value-')[1]);
+		$('input#div-id-color').trigger('change');
+	})
+
+	// show css properties of class selected
+	$('select#config-id-selected').on("change",get_id_css);
+
+	// on clicking create new class
+	$('button#config-create-id').on('click',create_ids_css);
+
+	// remove id
+	$('button#config-remove-id').on('click',function(){
+		delete css_ids[$('select#config-id-selected').val()];
+		update_ids_list();
+		get_id_css();
+		tmp_css_properties();
+	});
+
+////////////////////////////////// SAVE FUNCTIONS //////////////////////////////
+	// save page
+	$('button#config-project-save').on("click",project_save);
+
+	// new project
+	$('button#config-project-new').on("click",function(){
+		window.location.href = 'index.php';
+	});
+
+	$('button#config-project-url').on('click',function(){
+		var win = window.open('projects/'+$('#config-project-name').html(), '_blank');
+		if (win) win.focus();
+		else alert('Please allow popups for this website');
+	});
+}
+
