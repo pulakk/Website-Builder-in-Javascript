@@ -16,13 +16,15 @@ The html code for the form input is as follows.
 The php code shown below, implemented in **index.php** file itself, displays the current saved projects that the user has been working on, which are stored in *./projects/* folder.
 ```php
 <?php
-$projects = scandir('projects/');
-/* scandir lists two extra lines '.' and '..' for each folder and hence 
- the count is set to be greater than 2*/
-for($i = 2;$i<count($projects);$i++){
-	echo '<button class="load-project">'.$projects[$i].'</button>';
-}
-echo '<br>';
+
+	$projects = scandir('projects/');
+	/* scandir lists two extra lines '.' and '..' for each folder and hence 
+	 the count is set to be greater than 2*/
+	for($i = 2;$i<count($projects);$i++){
+		echo '<button class="load-project">'.$projects[$i].'</button>';
+	}
+	echo '<br>';
+
 ?>
 ```
 
