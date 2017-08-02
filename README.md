@@ -1,4 +1,4 @@
-# zinx-website-builder (beta)
+# Zinx-website-builder (beta)
 Needs an http server to host the platform (preferrably apache xampp)
 
 # Main Files->
