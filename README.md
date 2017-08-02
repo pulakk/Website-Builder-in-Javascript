@@ -40,7 +40,7 @@ var css_ids = {};
 
 ```
 
-When creating a new project, the css buffer variables are loaded with default css templates stored in **main/default_style.css** and **main/main.css**.
+When a new project is created, the css buffer variables are loaded with default css templates which are loaded from **default_style.css** and **main.css** files stored in **main** folder.
 
 ```css
 /* main.css */
@@ -65,7 +65,9 @@ button{
 	cursor:pointer;
 	box-sizing: border-box;
 }
+```
 
+```css
 /* default_style.css */
 .main-content-container{
 	padding : 10px;
@@ -73,7 +75,7 @@ button{
 	font-family : raleway;
 }
 ```
-While making any changes to the css buffer variables, the current css stylings stored in those variables are saved in the buffer storage file **main/style.css**, with the following javascript function in **builder/builder.js**.
+Any changes to the current css buffer variables are saved in the buffer storage file **main/style.css**, with the following javascript function in **builder/builder.js**. The stylesheet with id **tylesheet-styling** which is the main styling file of the page, is updated dynamically and reloaded in page.
 
 ```javascript
 
