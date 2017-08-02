@@ -142,7 +142,7 @@ function load_css_buffer(response){
 
 ### Saving
 
-Any changes to the current css buffer variables are saved in the buffer storage file *main/style.css*, through the javascript function in *builder/builder.js* shown below, which sends an **ajax request** to *tmp_css.php* for the purpose. The stylesheet with id **stylesheet-styling** which is the main styling file of the page, is dynamically updated when the query is successful.
+Any changes to the current css buffer variables are saved in the buffer storage file *main/style.css*, through the javascript function in *builder/builder.js* shown below, which sends an **ajax request** to *tmp_css.php* for the purpose. The stylesheet with id **stylesheet-styling** which is the main styling file of the page, is dynamically updated when a save query is successful. The save query is also sent to the server whenever a project is loaded or created.
 
 ```javascript
 
@@ -183,6 +183,20 @@ function tmp_css_properties(){
 	}});
 }
 ```
+
+The *tmp_css.php* server script then saves the css styling it recieves from the client into the temporary css file the editor is currently working on - *main/style.css*.
+```php
+<?php
+	if(isset($_POST['css'])){
+		// writing to temporary css buffer file
+		$myfile = fopen("main/style.css","w");
+		fwrite($myfile,$_POST['css']);
+		fclose($myfile);
+		echo "CSS Buffer updated.";
+	}
+?>
+```
+
 
 ## Main Files
 
