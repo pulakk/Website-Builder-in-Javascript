@@ -1,6 +1,6 @@
-# Zinx-website-builder (Ongoing Project)
-##  App Walkthrough
-The web platform needs an HTTP server for hosting the webpage. It loads at the url **./index.php** which implements a simple form input.
+# Zinx-website-builder, Ongoing Project
+## Login
+The web platform needs an HTTP server for hosting the webpage. It loads at the url **./index.php** which implements a simple form input asking the user to type in a project name.
 
 ![login image](https://github.com/OrionMonk/zinx-website-builder/blob/master/image_files/loginimage.png)
 
