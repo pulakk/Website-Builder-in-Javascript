@@ -1,6 +1,7 @@
 # Zinx-website-builder (Ongoing Project)
-##  App Walkthrough (Needs an HTTP Server supporting PHP)
-The web site starts from the url **./index.php** which implements a simple form input
+##  App Walkthrough
+The web platform needs an HTTP server for hosting the webpage. It loads at the url **./index.php** which implements a simple form input.
+
 ![login image](https://github.com/OrionMonk/zinx-website-builder/blob/master/image_files/loginimage.png)
 
 ```html
