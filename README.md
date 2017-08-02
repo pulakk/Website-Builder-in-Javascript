@@ -75,7 +75,7 @@ button{
 	font-family : raleway;
 }
 ```
-Any changes to the current css buffer variables are saved in the buffer storage file **main/style.css**, with the following javascript function in **builder/builder.js**. The stylesheet with id **tylesheet-styling** which is the main styling file of the page, is updated dynamically and reloaded in page.
+Any changes to the current css buffer variables are saved in the buffer storage file *main/style.css*, through the javascript function in *builder/builder.js* shown below, which sends an **ajax request** to *tmp_css.php* for the purpose. The stylesheet with id **stylesheet-styling** which is the main styling file of the page, is dynamically updated when the query is successful.
 
 ```javascript
 
