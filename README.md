@@ -20,7 +20,7 @@ The php code shown below, implemented in **index.php** file itself, displays the
 	$projects = scandir('projects/');
 	
 	/* scandir lists two extra lines '.' and '..' for each folder and hence 
-	 the count is set to be greater than 2*/
+	 the count is started from 2 instead of 0 */
 	for($i = 2;$i<count($projects);$i++){
 		echo '<button class="load-project">'.$projects[$i].'</button>';
 	}
@@ -28,6 +28,91 @@ The php code shown below, implemented in **index.php** file itself, displays the
 	echo '<br>';
 
 ?>
+```
+
+## The Zinx Editor
+The editor has a variable that works as a css buffer for both classes styling and id styling, namely css_classes and css_ids. These store the current css styling of all the classes and ids created within the editor with it's tools.
+
+```javascript
+
+var css_classes = {};
+var css_ids = {};
+
+```
+
+When creating a new project, the css buffer variables are loaded with default css templates stored in **main/default_style.css** and **main/main.css**.
+
+```css
+/* main.css */
+html{
+	min-height:100%;
+}
+body{
+	min-height:100%;
+	margin:0px;
+	padding:0px;
+}
+div{
+	box-sizing: border-box;
+}
+input{
+	box-sizing: border-box;
+}
+textarea{
+	box-sizing: border-box;
+}
+button{
+	cursor:pointer;
+	box-sizing: border-box;
+}
+
+/* default_style.css */
+.main-content-container{
+	padding : 10px;
+	text-align : center;
+	font-family : raleway;
+}
+```
+While making any changes to the css buffer variables, the current css stylings stored in those variables are saved in the buffer storage file **main/style.css**, with the following javascript function in **builder/builder.js**.
+
+```javascript
+
+// save css buffer object to current css editor settings buffer
+function tmp_css_properties(){
+	
+	let link = 'tmp_css.php';
+	css_string = "";
+	
+	// for all classes
+	for(let each_class in css_classes){
+		css_string += "."+each_class+'{\n';
+		
+		// for each class add save their properties
+		for(let key in css_classes[each_class]){
+			if(css_classes[each_class][key]!='')
+				css_string += '\t'+key+' : '+css_classes[each_class][key]+';\n';
+		}
+		css_string += '}\n';
+	}
+
+	// for all ids 
+	for(let each_id in css_ids){
+		css_string += "#"+each_id+'{\n';
+		
+		// for each id add save their properties
+		for(let key in css_ids[each_id]){
+			if(css_ids[each_id][key]!='')
+				css_string += '\t'+key+' : '+css_ids[each_id][key]+';\n';
+		}
+		css_string += '}\n';
+	}
+	
+	// send save query through ajax to link ("tmp_css.php")
+	$.ajax({url:link,data:"css="+css_string,type:'post',success:function(data){
+		// reload style sheet when success in saving
+		$('#stylesheet-styling').attr('href',$('#stylesheet-styling').attr('href')+"?id=" + new Date().getMilliseconds());
+	}});
+}
 ```
 
 ## Main Files
