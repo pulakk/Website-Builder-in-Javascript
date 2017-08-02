@@ -196,7 +196,91 @@ The *tmp_css.php* server script then saves the css styling it recieves from the 
 	}
 ?>
 ```
+## Saving the Project
 
+To save the project, we basically need to save the html inside the edited part of the page and the css styling of the page (separate from the styling of the editor tools). This is achieved by an ajax query to a php script named *save.php*, with the html of the edited page and a css string, which stores the current styling of the page formatted in css using the css buffer variables.
+
+```javascript
+// save the current html file and css styling to project file by sending ajax query to ./save.php
+function project_save(){
+	if(typeof current_div != 'undefined') current_div.css('outline','none');
+	let link = 'save.php';
+	let html = '<!DOCTYPE html>\n'+
+	'<html>\n'+
+	'<head>\n'+
+		'\t<!-- local links -->\n'+
+		'\t<link rel="stylesheet" href="css/style.css">\n\n'+
+		'\t<!-- online links -->\n'+
+		'\t<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway"/>\n\n'+
+		'\t<title> '+$('span#config-project-name').html()+'</title>\n'+
+	'</head>\n'+
+	'<body>\n'+
+	'\t<div class="'+main_container+'">\n'+
+	'\t\t'+$('div.'+main_container).html()+'\n'+
+	'\t</div>\n'+
+	'</body>\n'+
+	'</html>\n';
+
+	$.ajax({
+		url:link,
+		data:'project-name='+$('span#config-project-name').html()+'&html='+html+'&css='+css_string,
+		type:'post',
+		success:function(response){
+			console.log(response);
+		}
+	});
+}
+```
+
+The php script *save.php* then creates a folder with the desired project name, if it doesn't alread exist, and then creates or updates the html and css files inside it. These files are later used to load saved projects. 
+
+```php
+<?php
+	if(isset($_POST['project-name'])){
+		// create folder if not present
+		$folder = 'projects/';
+		$folder .= $_POST['project-name'];
+		if (!file_exists($folder)) {
+			mkdir($folder, 0777, true);
+			mkdir($folder.'/css', 0777, true);
+		}
+		// save css file
+		$main_css = file('main/main.css');
+		$default_css = "";
+		foreach($main_css as $line){
+			$default_css .= $line;
+		}
+		$style_css = fopen($folder."/css/style.css","w");
+		fwrite( $style_css, $default_css . $_POST['css']);
+		fclose($style_css);
+		// save html file
+		$html = fopen($folder.'/index.html','w');
+		fwrite($html, $_POST['html']);
+		fclose($html);
+	}else{
+		echo "Error Occured!";
+	}
+?>
+```
+
+When there is a load project operation, the html of the project saved, is loaded into the editor with the following script in *builder.php*:
+
+```php
+<?php
+		// if project already exists load the html
+		if(file_exists('projects/'.$_POST['folder-name'])){
+			$html_load_file = file('projects/'.$_POST['folder-name'].'/index.html');
+			$html ="";
+			foreach($html_load_file as $line){
+				$html .= $line;
+			}
+			echo trim(explode('</body>',trim(explode('<body>',$html)[1],' '))[0],' ');
+		}else{
+			// output html
+			echo '<div class="main-content-container"><div>Welcome</div><div>Sample Div</div></div>';
+		}
+?>
+```
 
 ## Main Files
 
