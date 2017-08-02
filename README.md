@@ -29,6 +29,10 @@ The php code shown below, implemented in **index.php** file itself, displays the
 
 ?>
 ```
+## Understanding the Editor Tools
+
+![editor view](https://github.com/OrionMonk/zinx-website-builder/blob/master/image_files/editor.png)
+
 
 ## Saving and Loading CSS styling
 ### Loading
