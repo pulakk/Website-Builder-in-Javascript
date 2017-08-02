@@ -18,11 +18,13 @@ The php code shown below, implemented in **index.php** file itself, displays the
 <?php
 
 	$projects = scandir('projects/');
+	
 	/* scandir lists two extra lines '.' and '..' for each folder and hence 
 	 the count is set to be greater than 2*/
 	for($i = 2;$i<count($projects);$i++){
 		echo '<button class="load-project">'.$projects[$i].'</button>';
 	}
+	
 	echo '<br>';
 
 ?>
