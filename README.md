@@ -30,7 +30,8 @@ The php code shown below, implemented in **index.php** file itself, displays the
 ?>
 ```
 
-## The Zinx Editor
+## Saving and Loading CSS styling
+### Loading
 The editor has a variable that works as a css buffer for both classes styling and id styling, namely **css_classes** and **css_ids**. These store the current css styling of all the classes and ids created within the editor with it's tools.
 
 ```javascript
@@ -40,41 +41,107 @@ var css_ids = {};
 
 ```
 
-When a new project is created, the css buffer variables are loaded with default css templates which are loaded from **default_style.css** and **main.css** files stored in **main** folder.
-
-```css
-/* main.css */
-html{
-	min-height:100%;
-}
-body{
-	min-height:100%;
-	margin:0px;
-	padding:0px;
-}
-div{
-	box-sizing: border-box;
-}
-input{
-	box-sizing: border-box;
-}
-textarea{
-	box-sizing: border-box;
-}
-button{
-	cursor:pointer;
-	box-sizing: border-box;
-}
+When we reach the project page, the following javascript code implemented in *builder/builder.js* sends a query to *get_project_css.php* for the required css styling to be loaded into the page.
+```javascript
+$.ajax({
+		url:'get_project_css.php',
+		type:'post',
+		data:'project='+$('span#config-project-name').html(),
+		success:load_css_buffer});
 ```
 
-```css
-/* default_style.css */
-.main-content-container{
-	padding : 10px;
-	text-align : center;
-	font-family : raleway;
-}
+The script *get_project_css.php* either returns a default css template, from *main/default_style.css* and *main/main.css*, or a saved css styling from the project's css folder, based on whether it is a new project or a saved project to be loaded respectively. The code is as shown below: 
+```php
+<?php
+	if(isset($_POST['project'])){
+		$project = $_POST['project'];
+		if(file_exists('projects/'.$project)){
+			$css_load_file = file('projects/'.$project.'/css/style.css');
+			$css = "";
+			foreach($css_load_file as $line){
+				$css .= $line;
+			}
+			// split main.css from style.css
+			$css = explode('main.css finishes here */',$css);
+			echo $css[1];
+		}else{
+			$css_load_file = file('main/default_style.css');
+			$css = "";
+			foreach($css_load_file as $line){
+				$css .= $line;
+			}
+			echo $css;
+		}
+	}
+?>
+
 ```
+
+
+Based on the reponse from the php script, the editor then loads the css styling into the css buffer variables, namely **css_classes** and **css_ids**, through the following javasript code implemented in *builder/builder.js*:
+
+```javascript
+// loads css styling from the project file to css buffer file of editor page
+function load_css_buffer(response){
+	// split all uncommented segments of code
+	let uncommented = response.split(/\/\*[a-zA-Z\s]*\*\//);
+	for(let i in uncommented){
+		// for all snippets of uncommented code
+		let snippet = uncommented[i];
+		
+		// if snippet not empty
+		if(snippet.trim() != ''){
+			// as each class and id styling are separated by [.#][a-zA-Z]*{ ... } so split it by '}'	
+			let group = snippet.split('}');
+			
+			for(let i in group){
+				let css_instance = group[i].trim(); // for each styling group (class or id) spaces trimmed at the end
+				if(css_instance != ''){ // if split item is not empty
+					
+					if(css_instance.startsWith('.')){ // if starts with '.' then it is a class
+						css_instance = css_instance.split('.')[1];
+						let className = css_instance.split('{')[0].trim();
+						
+						// set new class for each className in styling file loaded
+						css_classes[className.toString()] = JSON.parse(JSON.stringify(default_styling));
+
+						// add each css property eg. padding:100px; separate by ';' and then add each property
+						let css_props = group[i].split('{')[1].split(';');
+						
+						for(let i in css_props){
+							let css_prop = css_props[i].trim();
+							if(css_prop!=''){
+								let key = css_prop.split(':')[0].trim();
+								let value = css_prop.split(':')[1].trim();
+								css_classes[className.toString()][key.toString()] = value.toString();
+							}
+						}
+					}
+					// same logic for id which start with '#'
+					else if(css_instance.startsWith('#')){
+						css_instance = css_instance.split('#')[1];
+						let idName = css_instance.split('{')[0].trim();
+						css_ids[idName.toString()] = JSON.parse(JSON.stringify(default_styling));
+
+						let css_props = group[i].split('{')[1].split(';');
+						for(let i in css_props){
+							let css_prop = css_props[i].trim();
+							if(css_prop!=''){
+								let key = css_prop.split(':')[0].trim();
+								let value = css_prop.split(':')[1].trim();
+								css_ids[idName.toString()][key.toString()] = value.toString();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+```
+
+### Saving
+
 Any changes to the current css buffer variables are saved in the buffer storage file *main/style.css*, through the javascript function in *builder/builder.js* shown below, which sends an **ajax request** to *tmp_css.php* for the purpose. The stylesheet with id **stylesheet-styling** which is the main styling file of the page, is dynamically updated when the query is successful.
 
 ```javascript
