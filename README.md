@@ -1,7 +1,7 @@
 # Zinx-website-builder (beta)
 Needs an http server to host the platform (preferrably apache xampp)
 
-# Main Files->
+# Main Files
 
 > ./builder/builder.js - The main editor code (600+ lines) - look at the code to better understand (properly commented, readable)
 
@@ -14,12 +14,12 @@ Needs an http server to host the platform (preferrably apache xampp)
 > ./get_project_css.php - loads saved project
 
 # to-do
-> - [x] class/id editor
+ - [x] class/id editor
 
-> - [x] class/id editor 
+ - [x] class/id editor 
 
-> - [x] project manager (save/load)
+ - [x] project manager (save/load)
 
-> - [x] Color picker
+ - [x] Color picker
 
-> - [ ] background images
+ - [ ] background images
