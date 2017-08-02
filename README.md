@@ -1,8 +1,10 @@
 # Zinx-website-builder, Ongoing Project
 ## Login
-The web platform needs an HTTP server for hosting the webpage. It loads at the url **./index.php** which implements a simple form input asking the user to type in a project name.
+The web platform needs an HTTP server for hosting the webpage. It loads at the url **index.php** which implements a simple form input asking the user to type in a project name.
 
 ![login image](https://github.com/OrionMonk/zinx-website-builder/blob/master/image_files/loginimage.png)
+
+The html code for the form input is as follows. 
 
 ```html
 <!-- html form -->
@@ -11,13 +13,16 @@ The web platform needs an HTTP server for hosting the webpage. It loads at the u
 		<button class='start-project' type="submit" value="submit">Start Project</button>
 </form>
 ```
-A Javascript snippet given as follows, implemented in **./builder/index.js** displays the current saved projects that the user has been working on, which are stored in **./projects/** folder.
-```javascript
-window.onload = function(){
-    $('.load-project').on('click',function(){
-        $('#project-name').val($(this).html());
-    });
-}
+The php code shown below, implemented in **index.php** file itself, displays the current saved projects that the user has been working on, which are stored in *./projects/* folder.
+```php
+<?php
+		$projects = scandir('projects/');
+		if(count($projects)>2) echo 'Projects you have been working on <hr border="none" color="#eee" size="1" width="300">';
+		for($i = 2;$i<count($projects);$i++){
+			echo '<button class="load-project">'.$projects[$i].'</button>';
+		}
+		echo '<br>';
+	?>
 ```
 
 ## Main Files
