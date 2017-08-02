@@ -17,11 +17,12 @@ The php code shown below, implemented in **index.php** file itself, displays the
 ```php
 <?php
 $projects = scandir('projects/');
-if(count($projects)>2) echo 'Projects you have been working on <hr border="none" color="#eee" size="1" width="300">';
-	for($i = 2;$i<count($projects);$i++){
-		echo '<button class="load-project">'.$projects[$i].'</button>';
-	}
-	echo '<br>';
+/* scandir lists two extra lines '.' and '..' for each folder and hence 
+ the count is set to be greater than 2*/
+for($i = 2;$i<count($projects);$i++){
+	echo '<button class="load-project">'.$projects[$i].'</button>';
+}
+echo '<br>';
 ?>
 ```
 
