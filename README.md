@@ -29,12 +29,15 @@ The php code shown below, implemented in **index.php** file itself, displays the
 
 ?>
 ```
-## Understanding the Editor Tools
+### Editor Tools
+The **configuration tab** on the right, recognizable by the gear icon, can be used to edit the inner html, css class and css id of the current div/html-element selected. The current html element under selection is hightlight with a **dashed light blue outline**.
 
 ---
 ![editor view](https://github.com/OrionMonk/zinx-website-builder/blob/master/image_files/editor.png)
 
 ---
+The styling tabs are visible on the left portion of the page. They have hideable dropdowns, where we can edit css class styling as well as css id styling. The first tab is for styling or editing classes whereas the second one is for ID. 
+The third tab is for saving, loading or viewing a project. The last tab is for dragging the tabs over the page in case the editor obscures the view of the page during edit.
 
 
 ## Saving and Loading CSS styling
