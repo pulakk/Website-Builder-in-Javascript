@@ -31,7 +31,7 @@ The php code shown below, implemented in **index.php** file itself, displays the
 ```
 
 ## The Zinx Editor
-The editor has a variable that works as a css buffer for both classes styling and id styling, namely css_classes and css_ids. These store the current css styling of all the classes and ids created within the editor with it's tools.
+The editor has a variable that works as a css buffer for both classes styling and id styling, namely **css_classes** and **css_ids**. These store the current css styling of all the classes and ids created within the editor with it's tools.
 
 ```javascript
 
