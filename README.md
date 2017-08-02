@@ -232,7 +232,7 @@ function project_save(){
 }
 ```
 
-The php script *save.php* then creates a folder with the desired project name, if it doesn't alread exist, and then creates or updates the html and css files inside it. These files are later used to load saved projects. 
+The php script *save.php* then creates a folder with the desired project name, if it doesn't already exist, and then creates or updates the html and css files inside it. These files are later used to load saved projects. 
 
 ```php
 <?php
@@ -263,7 +263,7 @@ The php script *save.php* then creates a folder with the desired project name, i
 ?>
 ```
 
-When there is a load project operation, the html of the project saved, is loaded into the editor with the following script in *builder.php*:
+When there is a load project operation, the html of the project saved is loaded into the editor with the following script in *builder.php*:
 
 ```php
 <?php
