@@ -29,7 +29,7 @@ The php code shown below, implemented in **index.php** file itself, displays the
 
 ?>
 ```
-### Editor Tools
+## Editor Tools
 The **configuration tab** on the right, recognizable by the *gear icon*, can be used to edit the **inner html**, css **class** and css **id** of the current *html-element* selected. The current *html element* under selection is hightlighted with a *dashed light blue outline*.
 
 ---
