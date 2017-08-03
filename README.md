@@ -41,7 +41,7 @@ The third tab is for **saving**, **loading** or **viewing** a project. The last 
 
 
 ## Saving and Loading CSS styling
-### Loading
+### Loading stylesheet
 The editor has a variable that works as a css buffer for both classes styling and id styling, namely **css_classes** and **css_ids**. These store the current css styling of all the classes and ids created within the editor with it's tools.
 
 ```javascript
@@ -150,7 +150,7 @@ function load_css_buffer(response){
 
 ```
 
-### Saving
+### Saving stylesheet
 
 Any changes to the current css buffer variables are saved in the buffer storage file *main/style.css*, through the javascript function in *builder/builder.js* shown below, which sends an **ajax request** to *tmp_css.php* for the purpose. The stylesheet with id **stylesheet-styling** which is the main styling file of the page, is dynamically updated when a save query is successful. The save query is also sent to the server whenever a project is loaded or created.
 
