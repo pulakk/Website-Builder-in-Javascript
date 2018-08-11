@@ -1,4 +1,4 @@
-# Zinx-website-builder, Ongoing Project
+# Zinx-website-builder
 ## Login
 The web platform needs an HTTP server for hosting the webpage. It loads at the url **index.php** which implements a simple form input asking the user to type in a project name.
 
