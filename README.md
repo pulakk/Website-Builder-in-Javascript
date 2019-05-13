@@ -2,7 +2,7 @@
 ## Login
 The web platform needs an HTTP server for hosting the webpage. It loads at the url **index.php** which implements a simple form input asking the user to type in a project name.
 
-![login image](https://github.com/OrionMonk/zinx-website-builder/blob/master/image_files/loginimage.png)
+![login image](https://github.com/mizimo/Website-Builder-in-Javascript/raw/master/image_files/loginimage.png)
 
 The html code for the form input is as follows. 
 
@@ -33,7 +33,7 @@ The php code shown below, implemented in **index.php** file itself, displays the
 The **configuration tab** on the right, recognizable by the *gear icon*, can be used to edit the **inner html**, css **class** and css **id** of the current *html-element* selected. The current *html element* under selection is hightlighted with a *dashed light blue outline*.
 
 ---
-![editor view](https://github.com/OrionMonk/zinx-website-builder/blob/master/image_files/editor.png)
+![editor view](https://github.com/mizimo/Website-Builder-in-Javascript/raw/master/image_files/editor.png)
 
 ---
 The *styling tabs* are visible on the left portion of the page. They have *hideable dropdowns*, where we can edit css **class** styling as well as css **id** styling. The first tab is for styling or editing **classes** whereas the second one is for **ID**. 
